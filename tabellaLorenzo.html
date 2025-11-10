@@ -19,7 +19,7 @@
         th {
             background-color: #eee;
         }
-        input {
+        input, select {
             margin: 5px;
         }
     </style>
@@ -32,6 +32,26 @@
     <label>Indirizzo: <input type="text" id="indirizzo" value="Via Alessandro Volta 60"></label><br>
     <label>Città: <input type="text" id="citta" value="Rho"></label><br>
 
+    <p><strong>Sesso:</strong><br>
+        <label><input type="radio" name="sesso" value="Maschio" checked> Maschio</label>
+    </p>
+
+    <p><strong>Diplomi posseduti:</strong><br>
+        <label><input type="checkbox" value="Terza media" checked> Terza media</label>
+    </p>
+
+    <p><strong>Provincia:</strong><br>
+        <select id="provincia">
+            <option value="Rho - Provincia di Milano" selected>Rho - Provincia di Milano</option>
+        </select>
+    </p>
+
+    <p><strong>Sport praticati:</strong><br>
+        <select id="sport" multiple size="1">
+            <option value="Calcio" selected>Calcio</option>
+        </select>
+    </p>
+
     <button onclick="stampaDati()">Mostra tabella</button>
 
     <div id="risultato"></div>
@@ -43,13 +63,33 @@
             var indirizzo = document.getElementById("indirizzo").value;
             var citta = document.getElementById("citta").value;
 
+            var sesso = document.querySelector('input[name="sesso"]:checked').value;
+
+            var diplomi = [];
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxes.forEach(function(el) {
+                diplomi.push(el.value);
+            });
+
+            var provincia = document.getElementById("provincia").value;
+
+            var sportSelezionati = [];
+            var opzioni = document.getElementById("sport").selectedOptions;
+            for (var i = 0; i < opzioni.length; i++) {
+                sportSelezionati.push(opzioni[i].value);
+            }
+
             var tabella = "<table>";
-            tabella += "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th></tr>";
+            tabella += "<tr><th>Nome</th><th>Cognome</th><th>Indirizzo</th><th>Città</th><th>Sesso</th><th>Diplomi</th><th>Provincia</th><th>Sport</th></tr>";
             tabella += "<tr>";
             tabella += "<td>" + nome + "</td>";
             tabella += "<td>" + cognome + "</td>";
             tabella += "<td>" + indirizzo + "</td>";
             tabella += "<td>" + citta + "</td>";
+            tabella += "<td>" + sesso + "</td>";
+            tabella += "<td>" + (diplomi.length > 0 ? diplomi.join(", ") : "Nessuno") + "</td>";
+            tabella += "<td>" + provincia + "</td>";
+            tabella += "<td>" + (sportSelezionati.length > 0 ? sportSelezionati.join(", ") : "Nessuno") + "</td>";
             tabella += "</tr>";
             tabella += "</table>";
 
