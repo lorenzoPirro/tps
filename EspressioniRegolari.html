@@ -53,6 +53,39 @@
       let Email = document.getElementById("Email").value;
        let telefono = document.getElementById("telefono").value;
 
+
+      let nome=/^[A-Za-z]+$/;
+      let cognome=/^[A-Za-z]+$/;
+      let citta=/^[A-Za-z]+$/;
+      let CAP=/^[0-9]{5}+$/;
+      let Email=/^[^\s@}+@[^\s@]+\.[^\s@]+$/;
+      let telefono=/^[0-9]{8,15}+$/;
+
+
+      if(!nome.test(nome){
+        alert("Usa solo le lettere");
+        return
+      }
+      if(!nome.test(nome){
+        alert("Usa solo le lettere");
+        return
+      }
+      if(!cognome.test(cognome){
+        alert("Usa solo le lettere");
+        return
+      }
+      if(!citta.test(citta){
+        alert("Usa solo le lettere");
+        return
+      }
+      if(!Email.test(Email){
+        alert("Massimo 5 numeri");
+        return
+      }
+      if(!telefono.test(telefono){
+        alert("Numero non valido");
+        return
+      }
       const persone = {};
       persone.nome = nome;
       persone.cognome = cognome;
