@@ -2,23 +2,18 @@
 <html>
 <head>
   <title>Anagrafica 4.0</title>
+
   <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
 
-        h1 {
-        }
-
-        table {
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-
-        th {
-        }
-    </style>
+    table {
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 
 <body>
@@ -27,76 +22,88 @@
   Nome <br>
 
   <input type="text" id="cognome">
-  cognome <br>
+  Cognome <br>
 
   <input type="text" id="citta">
-  citta <br>
+  Città <br>
 
   <input type="text" id="CAP">
   CAP <br>
 
-  <input type="text" id="E-mail">
-  E-mail <br>
+  <input type="text" id="Email">
+  Email <br>
 
   <input type="text" id="telefono">
-  telefono <br>
+  Telefono <br>
 
-  <input type="button" value="inserisci" onclick="ana()">
+  <input type="button" value="Inserisci" onclick="ana()">
 
   <script>
-    let elementi = [];
+
+    let elementi = JSON.parse(localStorage.getItem("elenco")) || [];
+
     function ana() {
+
       let nome = document.getElementById("nome").value;
       let cognome = document.getElementById("cognome").value;
       let citta = document.getElementById("citta").value;
       let CAP = document.getElementById("CAP").value;
       let Email = document.getElementById("Email").value;
-       let telefono = document.getElementById("telefono").value;
+      let telefono = document.getElementById("telefono").value;
 
+      let regexNome = /^[A-Za-z]+$/;
+      let regexCognome = /^[A-Za-z]+$/;
+      let regexCitta = /^[A-Za-z]+$/;
+      let regexCAP = /^[0-9]{5}$/;
+      let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      let regexTelefono = /^[0-9]{8,15}$/;
 
-      let nome=/^[A-Za-z]+$/;
-      let cognome=/^[A-Za-z]+$/;
-      let citta=/^[A-Za-z]+$/;
-      let CAP=/^[0-9]{5}+$/;
-      let Email=/^[^\s@}+@[^\s@]+\.[^\s@]+$/;
-      let telefono=/^[0-9]{8,15}+$/;
+      if(!regexNome.test(nome)){
+        alert("Il nome deve contenere solo lettere");
+        return;
+      }
 
+      if(!regexCognome.test(cognome)){
+        alert("Il cognome deve contenere solo lettere");
+        return;
+      }
 
-      if(!nome.test(nome){
-        alert("Usa solo le lettere");
-        return
+      if(!regexCitta.test(citta)){
+        alert("La città deve contenere solo lettere");
+        return;
       }
-      if(!nome.test(nome){
-        alert("Usa solo le lettere");
-        return
+
+      if(!regexCAP.test(CAP)){
+        alert("Il CAP deve avere 5 numeri");
+        return;
       }
-      if(!cognome.test(cognome){
-        alert("Usa solo le lettere");
-        return
+
+      if(!regexEmail.test(Email)){
+        alert("Email non valida");
+        return;
       }
-      if(!citta.test(citta){
-        alert("Usa solo le lettere");
-        return
+
+      if(!regexTelefono.test(telefono)){
+        alert("Numero di telefono non valido");
+        return;
       }
-      if(!Email.test(Email){
-        alert("Massimo 5 numeri");
-        return
-      }
-      if(!telefono.test(telefono){
-        alert("Numero non valido");
-        return
-      }
-      const persone = {};
-      persone.nome = nome;
-      persone.cognome = cognome;
-      persone.citta = citta;
-      persone.CAP = CAP;
-      persone.E-mail = E-mail;
-      persone.telefono = telefono;
+
+      const persone = {
+        nome: nome,
+        cognome: cognome,
+        citta: citta,
+        CAP: CAP,
+        Email: Email,
+        telefono: telefono
+      };
 
       elementi.push(persone);
+
       localStorage.setItem("elenco", JSON.stringify(elementi));
+
+      location.reload();
     }
+
   </script>
 
   <table border="1">
@@ -104,31 +111,35 @@
       <th>Nome</th>
       <th>Cognome</th>
       <th>Città</th>
-       <th>CAP</th>
+      <th>CAP</th>
       <th>Email</th>
       <th>Telefono</th>
     </tr>
+
     <tbody id="cont"></tbody>
   </table>
 
   <script>
+
     let cont = document.getElementById("cont");
-    let s = JSON.parse(localStorage.getItem("elenco"));
+
+    let s = JSON.parse(localStorage.getItem("elenco")) || [];
 
     for (let i = 0; i < s.length; i++) {
+
       let tr = document.createElement("tr");
 
       tr.innerHTML =
         "<td>" + s[i].nome + "</td>" +
         "<td>" + s[i].cognome + "</td>" +
         "<td>" + s[i].citta + "</td>" +
-         "<td>" + s[i].CAP + "</td>" +
+        "<td>" + s[i].CAP + "</td>" +
         "<td>" + s[i].Email + "</td>" +
         "<td>" + s[i].telefono + "</td>";
 
       cont.appendChild(tr);
     }
-    location.reload();
+
   </script>
 
 </body>
