@@ -52,7 +52,7 @@
       let telefono = document.getElementById("telefono").value;
 
       let regexNome = /^[A-Za-z]+$/;
-      let regexCognome = /^[A-Za-z]+$/;
+      let regexCognome = /^[\p{Script=Latin}]+$/u;
       let regexCitta = /^[A-Za-z]+$/;
       let regexCAP = /^[0-9]{5}$/;
       let regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
