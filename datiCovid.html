@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dati COVID-19 Italia</title>
+</head>
+<body>
+
+    <h1>Andamento COVID-19 in Italia</h1>
+
+    <table border="1" id="tabella">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nuovi positivi</th>
+                <th>Deceduti</th>
+                <th>Guariti</th>
+                <th>Totale casi</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+
+        fetch("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json")
+        .then(response => response.json())
+        .then(dati => {
+
+            // Stampo le chiavi del JSON
+            console.log(Object.keys(dati[0]));
+
+            let tabella = document.getElementById("tabella");
+            let corpo = tabella.getElementsByTagName("tbody")[0];
+
+            for (let i = 0; i < dati.length; i++) {
+
+                let riga = corpo.insertRow();
+
+                riga.insertCell(0).innerHTML = dati[i].data;
+                riga.insertCell(1).innerHTML = dati[i].nuovi_positivi;
+                riga.insertCell(2).innerHTML = dati[i].deceduti;
+                riga.insertCell(3).innerHTML = dati[i].dimessi_guariti;
+                riga.insertCell(4).innerHTML = dati[i].totale_casi;
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
