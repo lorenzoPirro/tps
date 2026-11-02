@@ -46,10 +46,6 @@
         tr:hover {
             background-color: #cce5ff;
         }
-
-        #errore {
-            color: red;
-        }
     </style>
 
 </head>
@@ -57,8 +53,6 @@
 <body>
 
     <h1>Andamento COVID-19 in Italia</h1>
-
-    <p id="errore"></p>
 
     <table id="tabella">
 
@@ -77,52 +71,8 @@
 
     </table>
 
-    <script>
-
-        fetch("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json")
-
-        .then(response => {
-
-            if (!response.ok) {
-                throw new Error("Errore nella richiesta HTTP");
-            }
-
-            return response.json();
-
-        })
-
-        .then(dati => {
-
-            console.log(Object.keys(dati[0]));
-
-            let tabella = document.getElementById("tabella");
-
-            let corpo = tabella.getElementsByTagName("tbody")[0];
-
-            for (let i = 0; i < dati.length; i++) {
-
-                let riga = corpo.insertRow();
-
-                riga.insertCell(0).textContent = dati[i].data;
-                riga.insertCell(1).textContent = dati[i].nuovi_positivi;
-                riga.insertCell(2).textContent = dati[i].deceduti;
-                riga.insertCell(3).textContent = dati[i].dimessi_guariti;
-                riga.insertCell(4).textContent = dati[i].totale_casi;
-
-            }
-
-        })
-
-        .catch(errore => {
-
-            document.getElementById("errore").textContent =
-                "Impossibile caricare i dati: " + errore.message;
-
-        });
-
-    </script>
-
 </body>
 </html>
+
 
 
