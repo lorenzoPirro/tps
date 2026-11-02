@@ -1,14 +1,67 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Dati COVID-19 Italia</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: darkblue;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            margin: 20px auto;
+            background-color: white;
+        }
+
+        th {
+            background-color: darkblue;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e6e6e6;
+        }
+
+        tr:hover {
+            background-color: #cce5ff;
+        }
+
+        #errore {
+            color: red;
+        }
+    </style>
+
 </head>
+
 <body>
 
     <h1>Andamento COVID-19 in Italia</h1>
 
-    <table border="1" id="tabella">
+    <p id="errore"></p>
+
+    <table id="tabella">
+
         <thead>
             <tr>
                 <th>Data</th>
@@ -18,33 +71,52 @@
                 <th>Totale casi</th>
             </tr>
         </thead>
+
         <tbody>
         </tbody>
+
     </table>
 
     <script>
 
         fetch("https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json")
-        .then(response => response.json())
+
+        .then(response => {
+
+            if (!response.ok) {
+                throw new Error("Errore nella richiesta HTTP");
+            }
+
+            return response.json();
+
+        })
+
         .then(dati => {
 
-            // Stampo le chiavi del JSON
             console.log(Object.keys(dati[0]));
 
             let tabella = document.getElementById("tabella");
+
             let corpo = tabella.getElementsByTagName("tbody")[0];
 
             for (let i = 0; i < dati.length; i++) {
 
                 let riga = corpo.insertRow();
 
-                riga.insertCell(0).innerHTML = dati[i].data;
-                riga.insertCell(1).innerHTML = dati[i].nuovi_positivi;
-                riga.insertCell(2).innerHTML = dati[i].deceduti;
-                riga.insertCell(3).innerHTML = dati[i].dimessi_guariti;
-                riga.insertCell(4).innerHTML = dati[i].totale_casi;
+                riga.insertCell(0).textContent = dati[i].data;
+                riga.insertCell(1).textContent = dati[i].nuovi_positivi;
+                riga.insertCell(2).textContent = dati[i].deceduti;
+                riga.insertCell(3).textContent = dati[i].dimessi_guariti;
+                riga.insertCell(4).textContent = dati[i].totale_casi;
 
             }
+
+        })
+
+        .catch(errore => {
+
+            document.getElementById("errore").textContent =
+                "Impossibile caricare i dati: " + errore.message;
 
         });
 
@@ -52,3 +124,5 @@
 
 </body>
 </html>
+
+
